@@ -1,0 +1,151 @@
+<html>
+<head>
+<style>
+body{
+    padding:0; 
+    margin: 0;
+    width: 100%;
+}
+div{
+    padding:0; 
+    margin: 0;
+}
+.left {
+    float: left;
+    width: 30%;
+    height: 100%;
+    background-color: #c1ecfd;
+}
+.example {
+}
+
+.main {
+    width: 70%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+.flow {
+    position: absolute;
+    width: 0;
+}
+.name {
+    transition:0.5s;
+    background-color: rgba(128, 128, 128, 0.77);
+    color: white;
+    text-align: center;
+    border: 0;
+    border-radius: 3px;
+    width: 70px;
+    min-width: 70px;
+    padding: 3px 4px 4px 4px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    font-size: 12px;
+    margin: 0 auto;
+    position: fixed;
+    outline: none;
+}
+.name:before {
+    content: " ";
+    border-bottom: 8px solid rgba(255, 255, 255, 0);
+    border-right: 4px solid rgba(128, 128, 128, 0.77);
+    left: 35px;
+    top: 22px;
+    position: absolute;
+}
+.name:after {
+    content: " ";
+    border-bottom: 8px solid rgba(255, 255, 255, 0);
+    border-left: 4px solid rgba(128, 128, 128, 0.77);
+    left: 39px;
+    top: 22px;
+    position: absolute;
+}
+.tag {
+    margin: 0 auto;
+}
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+</head>
+<body>
+<div class="left">
+    <div class="example">
+        <div type="example" contenteditable="true" spellcheck="false" class="name"></div>
+    </div>
+    <div class="example">
+        <div type="example" contenteditable="true" spellcheck="false" class="tag"></div>
+    </div>
+</div>
+<div class="main"></div>
+    
+
+<script src="js/jquery-3.1.1.min.js"></script>
+<script>
+var main = document.querySelector('.main');
+var nameEx = document.querySelector('.example .name');
+function textWidth(){this.style.width = 14*this.textContent.length + 'px';}
+nameEx.addEventListener('input', textWidth);
+var moveXTmp, moveYTmp;
+function mousedown(e){
+    this.style.transition = 'none';
+    moveXTmp = e.targetTouches?e.targetTouches[0].pageX:e.pageX;
+    moveYTmp = e.targetTouches?e.targetTouches[0].pageY:e.pageY;
+    let that = this;
+    function mousemove(e){
+        e.preventDefault();
+        if(e.targetTouches){
+            that.style.left = Number(that.style.left.replace('px', '')) + e.targetTouches[0].pageX-moveXTmp;
+            that.style.top = Number(that.style.top.replace('px', '')) + e.targetTouches[0].pageY-moveYTmp;
+            moveXTmp = e.targetTouches?e.targetTouches[0].pageX:e.pageX;
+            moveYTmp = e.targetTouches?e.targetTouches[0].pageY:e.pageY;
+        } else {
+            that.style.left = Number(that.style.left.replace('px', '')) + e.movementX;
+            that.style.top = Number(that.style.top.replace('px', '')) + e.movementY;
+        }
+    }
+    function mouseup(e){
+        that.style.transition = '';
+        this.removeEventListener('mousemove', mousemove);
+        this.removeEventListener('touchmove', mousemove, {'passive':false});
+        this.removeEventListener('mouseup', mouseup);
+        this.removeEventListener('touchend', mouseup);
+        let curX = e.pageX?e.pageX:e.changedTouches[0].pageX;
+        if (that.getAttribute('type') ==='example'){
+            if(curX > window.innerWidth*0.3) {
+                let div = document.createElement('div');
+                div.innerHTML = that.innerHTML;
+
+                let attrs = that.getAttributeNames();
+                for (let i=0;i<attrs.length;i++){
+                    div.setAttribute(attrs[i], that.getAttribute(attrs[i]));
+                }
+                div.removeAttribute('type');
+                main.appendChild(div);
+                div.addEventListener('mousedown', mousedown);
+                div.addEventListener('touchstart', mousedown, {'passive':false});
+                div.addEventListener('input', textWidth);
+                div.focus();
+            }
+            that.style.left = 0;
+            that.style.top = 0;
+        } else if(curX < window.innerWidth*0.3) {
+            that.style.opacity = 0;
+            setTimeout(function(){that.remove();}, 600);
+            
+        }
+        
+    }
+    
+    document.body.addEventListener('mousemove', mousemove);
+    document.body.addEventListener('touchmove', mousemove, {'passive':false});
+    document.body.addEventListener('mouseup', mouseup);
+    document.body.addEventListener('touchend', mouseup);
+}
+nameEx.addEventListener('mousedown', mousedown);
+nameEx.addEventListener('touchstart', mousedown, {'passive':false});
+
+</script>
+</body>
+</html>
