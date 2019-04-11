@@ -12,11 +12,13 @@ img{
     width: 100%;
 }
 div {
+    transition:0.1s;
     position:absolute;
 }
 </style>
 </head>
 <body>
+<span id="width"></span>
     <div id="sky"><img src="img/Jellyfish.jpg"/></div>
     <div id="ground"><img src="img/ground.png"/></div>
 <script>
@@ -24,19 +26,19 @@ div {
     var ground = document.getElementById('ground');
     var cx,cy,baseX,baseY;
     function init(){
-        cx = window.outerWidth/2;
-        cy = window.outerHeight/2;
+        cx = window.innerWidth/2;
+        cy = window.innerHeight/2;
         
-        sky.style.width = window.outerWidth*1.05 + 'px';
-        sky.style.height = window.outerHeight*1.05 + 'px';
+        sky.style.width = window.innerWidth*1.05 + 'px';
+        sky.style.height = window.innerHeight*1.05 + 'px';
 
         baseX = -cx*0.05;
         baseY = -cy*0.05;
         sky.style.marginLeft = baseX + 'px';
         sky.style.marginTop = baseY + 'px';
         
-        ground.style.width = window.outerWidth*1.1 + 'px';
-        ground.style.height = window.outerHeight*1.1 + 'px';
+        ground.style.width = window.innerWidth*1.1 + 'px';
+        ground.style.height = window.innerHeight*1.1 + 'px';
         
         ground.style.marginLeft = baseX*2 + 'px';
         ground.style.marginTop = baseY*2 + 'px';
