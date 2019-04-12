@@ -9,7 +9,8 @@ body{
     overflow: hidden;
 }
 img{
-    width: 100%;
+    margin:0 auto;
+    display: block;
 }
 div {
     transition:0.1s;
@@ -19,8 +20,8 @@ div {
 </head>
 <body>
 <span id="width"></span>
-    <div id="sky"><img src="img/Jellyfish.jpg"/></div>
-    <div id="ground"><img src="img/ground.png"/></div>
+    <div id="sky"><img src="img/main.jpg" onload="resize(this);"/></div>
+    <div id="ground"><img src="img/ground.png" onload="resize(this);"/></div>
 <script>
     var sky = document.getElementById('sky');
     var ground = document.getElementById('ground');
@@ -58,6 +59,14 @@ div {
     window.onresize = function(){
         init();
     };
+    function resize(that){
+        if (that.width > that.height) {
+            that.setAttribute('style', 'width: 100%');
+        } else {
+            that.setAttribute('style', 'height: 100%');
+        }
+    }
+    
 </script>
 </body>
 </html>

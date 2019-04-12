@@ -17,6 +17,7 @@ div{
     background-color: #c1ecfd;
 }
 .example {
+    height: 10%;
 }
 
 .main {
@@ -31,40 +32,54 @@ div{
     width: 0;
 }
 .name {
-    transition:0.5s;
-    background-color: rgba(128, 128, 128, 0.77);
+    background-color: rgba(39, 39, 39, 0.55);
     color: white;
     text-align: center;
     border: 0;
     border-radius: 3px;
-    width: 70px;
-    min-width: 70px;
-    padding: 3px 4px 4px 4px;
+    width: 80px;
+    min-width: 80px;
     font-weight: bold;
-    letter-spacing: 2px;
-    font-size: 12px;
+    letter-spacing: 1px;
+    font-size: 14px;
     margin: 0 auto;
     position: fixed;
     outline: none;
+    line-height: 1;
+    padding: 6px;
 }
 .name:before {
     content: " ";
-    border-bottom: 8px solid rgba(255, 255, 255, 0);
-    border-right: 4px solid rgba(128, 128, 128, 0.77);
-    left: 35px;
-    top: 22px;
+    border-bottom: 7px solid rgba(255, 255, 255, 0);
+    border-right: 4px solid rgba(39, 39, 39, 0.55);
+    left: 38px;
+    top: 26px;
     position: absolute;
 }
 .name:after {
     content: " ";
-    border-bottom: 8px solid rgba(255, 255, 255, 0);
-    border-left: 4px solid rgba(128, 128, 128, 0.77);
-    left: 39px;
-    top: 22px;
+    border-bottom: 7px solid rgba(255, 255, 255, 0);
+    border-left: 4px solid rgba(39, 39, 39, 0.55);
+    left: 42px;
+    top: 26px;
     position: absolute;
 }
-.tag {
+.bubble {
+    background-color: #e30333;
+    color: white;
+    text-align: center;
+    border: 0;
+    border-radius: 3px;
+    width: 80px;
+    min-width: 80px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 23px;
     margin: 0 auto;
+    position: fixed;
+    outline: none;
+    line-height: 1;
+    padding: 8px;
 }
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
@@ -72,68 +87,68 @@ div{
 <body>
 <div class="left">
     <div class="example">
-        <div type="example" contenteditable="true" spellcheck="false" class="name"></div>
+        <div type="example" contenteditable="true" spellcheck="false" class="name" width="16"></div>
     </div>
     <div class="example">
-        <div type="example" contenteditable="true" spellcheck="false" class="tag"></div>
+        <div type="example" contenteditable="true" spellcheck="false" class="bubble" width="23"></div>
     </div>
 </div>
-<div class="main"></div>
+<div class="main"><img src="img/6a4d6222ed75502e236bab40d286d4e0e3c94773.jpg"/></div>
     
 
 <script src="js/jquery-3.1.1.min.js"></script>
 <script>
 var main = document.querySelector('.main');
 var nameEx = document.querySelector('.example .name');
-function textWidth(){this.style.width = 14*this.textContent.length + 'px';}
+function textWidth(){this.style.width = this.getAttribute('width')*this.textContent.length + 'px';}
 nameEx.addEventListener('input', textWidth);
 var moveXTmp, moveYTmp;
 function mousedown(e){
-    this.style.transition = 'none';
     moveXTmp = e.targetTouches?e.targetTouches[0].pageX:e.pageX;
     moveYTmp = e.targetTouches?e.targetTouches[0].pageY:e.pageY;
-    let that = this;
+    let div;
+    
+    if (this.getAttribute('type') ==='example'){
+        div = document.createElement('div');
+        div.innerHTML = this.innerHTML;
+
+        let attrs = this.getAttributeNames();
+        for (let i=0;i<attrs.length;i++){
+            div.setAttribute(attrs[i], this.getAttribute(attrs[i]));
+        }
+        div.removeAttribute('type');
+        main.appendChild(div);
+        div.style.left = e.pageX;
+        div.style.top = e.pageY;
+        
+        div.addEventListener('mousedown', mousedown);
+        div.addEventListener('touchstart', mousedown, {'passive':false});
+        div.addEventListener('input', textWidth);
+    } else {
+        div = this;
+    }
     function mousemove(e){
         e.preventDefault();
         if(e.targetTouches){
-            that.style.left = Number(that.style.left.replace('px', '')) + e.targetTouches[0].pageX-moveXTmp;
-            that.style.top = Number(that.style.top.replace('px', '')) + e.targetTouches[0].pageY-moveYTmp;
+            div.style.left = Number(div.style.left.replace('px', '')) + e.targetTouches[0].pageX-moveXTmp;
+            div.style.top = Number(div.style.top.replace('px', '')) + e.targetTouches[0].pageY-moveYTmp;
             moveXTmp = e.targetTouches?e.targetTouches[0].pageX:e.pageX;
             moveYTmp = e.targetTouches?e.targetTouches[0].pageY:e.pageY;
         } else {
-            that.style.left = Number(that.style.left.replace('px', '')) + e.movementX;
-            that.style.top = Number(that.style.top.replace('px', '')) + e.movementY;
+            div.style.left = Number(div.style.left.replace('px', '')) + e.movementX;
+            div.style.top = Number(div.style.top.replace('px', '')) + e.movementY;
         }
     }
     function mouseup(e){
-        that.style.transition = '';
         this.removeEventListener('mousemove', mousemove);
         this.removeEventListener('touchmove', mousemove, {'passive':false});
         this.removeEventListener('mouseup', mouseup);
         this.removeEventListener('touchend', mouseup);
         let curX = e.pageX?e.pageX:e.changedTouches[0].pageX;
-        if (that.getAttribute('type') ==='example'){
-            if(curX > window.innerWidth*0.3) {
-                let div = document.createElement('div');
-                div.innerHTML = that.innerHTML;
-
-                let attrs = that.getAttributeNames();
-                for (let i=0;i<attrs.length;i++){
-                    div.setAttribute(attrs[i], that.getAttribute(attrs[i]));
-                }
-                div.removeAttribute('type');
-                main.appendChild(div);
-                div.addEventListener('mousedown', mousedown);
-                div.addEventListener('touchstart', mousedown, {'passive':false});
-                div.addEventListener('input', textWidth);
-                div.focus();
-            }
-            that.style.left = 0;
-            that.style.top = 0;
-        } else if(curX < window.innerWidth*0.3) {
-            that.style.opacity = 0;
-            setTimeout(function(){that.remove();}, 600);
-            
+        
+        if(curX < window.innerWidth*0.3) {
+            div.style.opacity = 0;
+            setTimeout(function(){div.remove();}, 600);
         }
         
     }
@@ -145,6 +160,13 @@ function mousedown(e){
 }
 nameEx.addEventListener('mousedown', mousedown);
 nameEx.addEventListener('touchstart', mousedown, {'passive':false});
+
+var bubbleEx = document.querySelector('.example .bubble');
+
+bubbleEx.addEventListener('input', textWidth);
+bubbleEx.addEventListener('mousedown', mousedown);
+bubbleEx.addEventListener('touchstart', mousedown, {'passive':false});
+
 
 </script>
 </body>
