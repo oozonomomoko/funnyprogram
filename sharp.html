@@ -23,37 +23,41 @@ div {
     <div id="sky"><img src="img/main.jpg" onload="resize(this);"/></div>
     <div id="ground"><img src="img/ground.png" onload="resize(this);"/></div>
 <script>
+    var movS = 0.05;
+    var movG = 0.1;
     var sky = document.getElementById('sky');
     var ground = document.getElementById('ground');
-    var cx,cy,baseX,baseY;
+    var cx,cy,baseXS,baseYS,baseXG,baseYG;
     function init(){
         cx = window.innerWidth/2;
         cy = window.innerHeight/2;
         
-        sky.style.width = window.innerWidth*1.05 + 'px';
-        sky.style.height = window.innerHeight*1.05 + 'px';
+        sky.style.width = window.innerWidth*(1+movS) + 'px';
+        sky.style.height = window.innerHeight*(1+movS) + 'px';
 
-        baseX = -cx*0.05;
-        baseY = -cy*0.05;
-        sky.style.marginLeft = baseX + 'px';
-        sky.style.marginTop = baseY + 'px';
+        baseXS = -cx*movS;
+        baseYS = -cy*movS;
+        sky.style.marginLeft = baseXS + 'px';
+        sky.style.marginTop = baseYS + 'px';
         
-        ground.style.width = window.innerWidth*1.1 + 'px';
-        ground.style.height = window.innerHeight*1.1 + 'px';
+        ground.style.width = window.innerWidth*(1+movG) + 'px';
+        ground.style.height = window.innerHeight*(1+movG) + 'px';
         
-        ground.style.marginLeft = baseX*2 + 'px';
-        ground.style.marginTop = baseY*2 + 'px';
+        baseXG = -cx*movG;
+        baseYG = -cy*movG;
+        ground.style.marginLeft = baseXG + 'px';
+        ground.style.marginTop = baseYG + 'px';
     }
     init();
     
     window.onload = function(){
         document.body.addEventListener('mousemove', function(e){
-            let degx = ~~((cx - e.clientX)*0.05) + baseX;
-            let degy = ~~((cy - e.clientY)*0.05) + baseY;
-            sky.style.marginLeft = degx + 'px';
-            sky.style.marginTop = degy + 'px';
-            ground.style.marginLeft = degx*2 + 'px';
-            ground.style.marginTop = degy*2 + 'px';
+            let degx = cx - e.clientX;
+            let degy = cy - e.clientY;
+            sky.style.marginLeft = ~~(degx*movS) + baseXS + 'px';
+            sky.style.marginTop = ~~(degy*movS) + baseYS + 'px';
+            ground.style.marginLeft = ~~(degx*movG) + baseXG + 'px';
+            ground.style.marginTop = ~~(degy*movG) + baseYG + 'px';
         });
     };
     window.onresize = function(){
