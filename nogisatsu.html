@@ -1,4 +1,4 @@
-<html>
+﻿<html>
 <head>
 <style>
 body{
@@ -12,161 +12,350 @@ div{
 }
 .left {
     float: left;
-    width: 30%;
+    width: 20%;
     height: 100%;
     background-color: #c1ecfd;
+    overflow: hidden;
 }
 .example {
-    height: 10%;
+    margin-bottom: 10px;
 }
 
 .main {
-    width: 70%;
+    width: 80%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     top: 0;
     right: 0;
 }
-.flow {
-    position: absolute;
+
+.name, .tag, .comment{
+    transition: 0.3s;
+    display: inline-block;
+    z-index:999;
+}
+.name input {
+    background-color: rgba(128, 128, 128, 0.77);
+    color: white;
+    text-align: center;
+    border: 0;
+    border-radius: 3px;
+    min-width: 70px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    font-size: 12px;
+    margin: 0 auto;
+    outline: none;
+    height: 24px;
+    width: 76px;
+}
+.name div:after {
+    content: " ";
+    border-color: rgba(255, 255, 255, 0);
+    border-style: solid;
+    border-top: 8px solid rgba(128, 128, 128, 0.77);
+    border-left-width: 4px;
+    border-right-width: 4px;
+    margin: 0 auto;
+    display: block;
     width: 0;
+    height: 0;
 }
-.name {
-    background-color: rgba(39, 39, 39, 0.55);
+.tag input {
+    background-color: #d20000;
     color: white;
     text-align: center;
     border: 0;
-    border-radius: 3px;
-    width: 80px;
-    min-width: 80px;
+    min-width: 70px;
     font-weight: bold;
-    letter-spacing: 1px;
-    font-size: 14px;
+    letter-spacing: 2px;
+    font-size: 15px;
     margin: 0 auto;
-    position: fixed;
     outline: none;
-    line-height: 1;
-    padding: 6px;
+    height: 30px;
+    width: 76px;
 }
-.name:before {
-    content: " ";
-    border-bottom: 7px solid rgba(255, 255, 255, 0);
-    border-right: 4px solid rgba(39, 39, 39, 0.55);
-    left: 38px;
-    top: 26px;
-    position: absolute;
-}
-.name:after {
-    content: " ";
-    border-bottom: 7px solid rgba(255, 255, 255, 0);
-    border-left: 4px solid rgba(39, 39, 39, 0.55);
-    left: 42px;
-    top: 26px;
-    position: absolute;
-}
-.bubble {
-    background-color: #e30333;
-    color: white;
-    text-align: center;
+.comment .content{
+    background-color: transparent;
     border: 0;
-    border-radius: 3px;
-    width: 80px;
-    min-width: 80px;
-    font-weight: bold;
+    min-width: 140px;
+    font-size: 13px;
     letter-spacing: 1px;
-    font-size: 23px;
-    margin: 0 auto;
-    position: fixed;
     outline: none;
-    line-height: 1;
-    padding: 8px;
+    min-height: 16px;
+    margin-bottom: 4px;
+    overflow: visible;
+}
+.comment input {
+    font-size: 13px;
+    width: 56px;
+    min-width: 56px;
+    background: #fdfdfd;
+    text-align: right;
+    border: 0;
+    outline: none;
+    color: #de0f0f;
+    float: right;
+    margin-top: -21px;
+}
+.comment:focus input {
+    margin-top: 1px;
+}
+.content div{
+    background-color: #fdfdfd;
+    margin-top: 4px;
+    width: 100%;
+    word-break: break-all;
+    white-space: nowrap;
+}
+.camera {
+    background: #1d8cc3;
+    width: 26px;
+    height: 15px;
+    position: absolute;
+    right: 52px;
+    bottom: 5px;
+}
+.camera:after {
+    content: " ";
+    background: white;
+    width: 6px;
+    height: 1px;
+    display: block;
+    position: absolute;
+    right: 3px;
+    top: 3px;
+}
+.camera div {
+    width: 20px;
+    height: 5px;
+    background: white;
+    position: absolute;
+    bottom: 2px;
+    left: 3px;
+}
+.camera div:before {
+    content: " ";
+    height: 5px;
+    width: 5px;
+    border-radius: 50%;
+    background: white;
+    display: block;
+    margin: 0 auto;
+    margin-top: -3px;
+    border: 2px solid #1d8cc3;
+}
+.main img {
+    position: fixed;
+    width: 50%;
 }
 </style>
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+<meta charset="utf-8">
 </head>
 <body>
 <div class="left">
     <div class="example">
-        <div type="example" contenteditable="true" spellcheck="false" class="name" width="16"></div>
+        <div type="example" class="name">
+            <input spellcheck="false" value="名字" onfocus="focusDefault(this,'名字')" onblur="blurDefault(this,'名字')" oninput="textWidth(this,13,24)" type="text"/>
+            <div></div>
+        </div>
     </div>
     <div class="example">
-        <div type="example" contenteditable="true" spellcheck="false" class="bubble" width="23"></div>
+        <div type="example" class="tag">
+            <input spellcheck="false" value="#标签" onfocus="focusDefault(this,'#标签')" onblur="blurDefault(this,'#标签')" oninput="textWidth(this,17,10)" type="text"/>
+        </div>
+    </div>
+    <div class="example">
+        <div type="example" class="comment">
+            <div class="content" spellcheck="false"  onpaste="textpaste()" oninput="addDiv(this)" contenteditable="true"><div>简述文字...简述文字...</div><div>简述文字...简述文字...</div><div>简述文字</div></div>
+            <input spellcheck="false" value="拍摄人" onfocus="focusDefault(this,'拍摄人')" onblur="blurDefault(this,'拍摄人')" oninput="resizeWidth(this,13,4)" type="text"/>
+            <div class="camera">
+                <div></div>
+            </div>
+            
+        </div>
+    </div>
+    <div class="example">
+        <input type="file" multiple="multiple" onchange="createImage(this)"/>
     </div>
 </div>
-<div class="main"><img src="img/6a4d6222ed75502e236bab40d286d4e0e3c94773.jpg"/></div>
+<div class="main"></div>
     
 
-<script src="js/jquery-3.1.1.min.js"></script>
 <script>
-var main = document.querySelector('.main');
-var nameEx = document.querySelector('.example .name');
-function textWidth(){this.style.width = this.getAttribute('width')*this.textContent.length + 'px';}
-nameEx.addEventListener('input', textWidth);
-var moveXTmp, moveYTmp;
-function mousedown(e){
-    moveXTmp = e.targetTouches?e.targetTouches[0].pageX:e.pageX;
-    moveYTmp = e.targetTouches?e.targetTouches[0].pageY:e.pageY;
-    let div;
-    
-    if (this.getAttribute('type') ==='example'){
-        div = document.createElement('div');
-        div.innerHTML = this.innerHTML;
-
-        let attrs = this.getAttributeNames();
-        for (let i=0;i<attrs.length;i++){
-            div.setAttribute(attrs[i], this.getAttribute(attrs[i]));
+let TRANSFORM = 'transform';
+if (typeof document.body.style.webkitTransform !== undefined) {
+    TRANSFORM = 'webkitTransform';
+}
+function getFileUrl(file) {
+    var urls = []; 
+    var agent = navigator.userAgent;
+    console.log(agent);
+    if (agent.indexOf("MSIE")>=1) {
+        urls.push([file.value, file.name+file.size]); 
+    } else  { 
+        for (let i=0; i<file.files.length; i++) {
+            let f = file.files.item(i);
+            urls.push([window.URL.createObjectURL(f), f.name+f.size]); 
         }
-        div.removeAttribute('type');
-        main.appendChild(div);
-        div.style.left = e.pageX;
-        div.style.top = e.pageY;
-        
-        div.addEventListener('mousedown', mousedown);
-        div.addEventListener('touchstart', mousedown, {'passive':false});
-        div.addEventListener('input', textWidth);
-    } else {
-        div = this;
     }
+    return urls; 
+}
+function createImage(t){
+    let urls = getFileUrl(t);
+    if(0 == urls.length) return;
+    let img = document.createElement('img');
+    img.src = urls[0][0];
+    img.setAttribute('scale', 1);
+    main.appendChild(img);
+    img.addEventListener('mousedown', mousedown);
+    img.addEventListener('touchstart', mousedown, {'passive':false});
+    img.addEventListener('mousewheel', scaleFun, {passive:false});
+}
+var main = document.querySelector('.main');
+function textWidth(t, fs, adj){
+    let len = t.value.length;
+    len=len<4?4:len;
+    t.style.width = fs*len + adj + 'px';
+}
+function resizeWidth(t, fs, adj){
+    let len = t.value.length;
+    len=len<4?4:len;
+    t.style.width = fs*len + adj + 'px';
+    t.nextElementSibling.style.right = t.style.width;
+}
+function focusDefault(t,str){
+    if(t.value == str){
+        t.value = '';
+    }
+}
+function blurDefault(t,str){
+    if(t.value == ''){
+        t.value = str;
+    }
+}
+function addDiv(t){
+    if(t.firstChild&&t.firstChild.nodeName.toLowerCase()=='#text'){
+        let rep = document.createElement('div');
+        rep.textContent = t.firstChild.nodeValue;
+        t.firstChild.replaceWith(rep);
+        let range;
+        if (t.setSelectionRange) {
+            t.focus();
+            t.setSelectionRange(t.value.length, t.value.length)
+        } else {
+            range = window.getSelection();
+            range.collapse(t, 1);
+            t.focus();
+        }
+    }
+}
+function textpaste(event){
+    var e = event || window.event
+    // 阻止默认粘贴
+    e.preventDefault();
+    // 粘贴事件有一个clipboardData的属性，提供了对剪贴板的访问
+    // clipboardData的getData(fomat) 从剪贴板获取指定格式的数据
+    var text =  (e.originalEvent || e).clipboardData.getData('text/plain') || prompt('在这里输入文本');
+    // 插入
+    document.execCommand("insertText", false, text);
+};
+var moveXTmp, moveYTmp;
+
+function getDistance(x1,y1,x2,y2){
+    return Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1- y2), 2));
+}
+let startDistance;
+let lastDistance;
+let tempSale;
+function mousedown(e){
+    this.style.transition = 'none';
+    this.style.position = 'fixed';
+    moveXTmp = e.touches?e.touches[0].pageX:e.pageX;
+    moveYTmp = e.touches?e.touches[0].pageY:e.pageY;
+    let that = this;
+    if(e.touches&&e.touches.length === 2) {
+        startDistance = getDistance(e.touches[0].pageX, e.touches[0].pageY, e.touches[1].pageX, e.touches[1].pageY);
+    }
+    let scale = Number(this.getAttribute('scale')?this.getAttribute('scale'):1);
     function mousemove(e){
         e.preventDefault();
-        if(e.targetTouches){
-            div.style.left = Number(div.style.left.replace('px', '')) + e.targetTouches[0].pageX-moveXTmp;
-            div.style.top = Number(div.style.top.replace('px', '')) + e.targetTouches[0].pageY-moveYTmp;
-            moveXTmp = e.targetTouches?e.targetTouches[0].pageX:e.pageX;
-            moveYTmp = e.targetTouches?e.targetTouches[0].pageY:e.pageY;
+        if(e.touches){
+            if(e.touches.length === 1) {
+                that.style.left = that.offsetLeft + e.touches[0].pageX-moveXTmp;
+                that.style.top = that.offsetTop + e.touches[0].pageY-moveYTmp;
+                moveXTmp = e.touches?e.touches[0].pageX:e.pageX;
+                moveYTmp = e.touches?e.touches[0].pageY:e.pageY;
+            }else if(e.touches.length === 2) {
+                let currDistance = getDistance(e.touches[0].pageX, e.touches[0].pageY, e.touches[1].pageX, e.touches[1].pageY);
+                let tempSale = currDistance/startDistance * scale;
+                that.style[TRANSFORM] = 'scale(' + tempSale +')';
+            }
         } else {
-            div.style.left = Number(div.style.left.replace('px', '')) + e.movementX;
-            div.style.top = Number(div.style.top.replace('px', '')) + e.movementY;
+            that.style.left = that.offsetLeft + e.movementX;
+            that.style.top = that.offsetTop + e.movementY;
         }
     }
     function mouseup(e){
+        that.style.transition = '0.3s';
+        if (that.getAttribute('type') ==='example'){
+            that.style.position = '';
+        }
+        that.setAttribute('scale', tempSale?tempSale:1);
         this.removeEventListener('mousemove', mousemove);
         this.removeEventListener('touchmove', mousemove, {'passive':false});
         this.removeEventListener('mouseup', mouseup);
         this.removeEventListener('touchend', mouseup);
         let curX = e.pageX?e.pageX:e.changedTouches[0].pageX;
-        
-        if(curX < window.innerWidth*0.3) {
-            div.style.opacity = 0;
-            setTimeout(function(){div.remove();}, 600);
+        if (that.getAttribute('type') ==='example'){
+            if(curX > window.innerWidth*0.2) {
+                let div = document.createElement('div');
+                div.innerHTML = that.innerHTML;
+
+                let attrs = that.getAttributeNames();
+                for (let i=0;i<attrs.length;i++){
+                    div.setAttribute(attrs[i], that.getAttribute(attrs[i]));
+                }
+                div.style.position = 'fixed';
+                div.removeAttribute('type');
+                main.appendChild(div);
+                div.addEventListener('mousedown', mousedown);
+                div.addEventListener('touchstart', mousedown, {'passive':false});
+                div.children[0].focus();
+                div.addEventListener('mousewheel', scaleFun, {'passive':false});
+            }
+            that.style.left = '';
+            that.style.top = '';
+        } else if(curX < window.innerWidth*0.2) {
+            that.remove();
         }
-        
     }
-    
     document.body.addEventListener('mousemove', mousemove);
     document.body.addEventListener('touchmove', mousemove, {'passive':false});
     document.body.addEventListener('mouseup', mouseup);
     document.body.addEventListener('touchend', mouseup);
 }
-nameEx.addEventListener('mousedown', mousedown);
-nameEx.addEventListener('touchstart', mousedown, {'passive':false});
-
-var bubbleEx = document.querySelector('.example .bubble');
-
-bubbleEx.addEventListener('input', textWidth);
-bubbleEx.addEventListener('mousedown', mousedown);
-bubbleEx.addEventListener('touchstart', mousedown, {'passive':false});
-
+function scaleFun(e){
+    e.preventDefault();
+    let wheelDelta = e.detail?e.detail:e.wheelDelta;
+    let cur = Number(this.getAttribute('scale')?this.getAttribute('scale'):1);
+    if(wheelDelta>0){
+        cur+=0.05;
+    }else if(wheelDelta<0&&cur>0.1){
+        cur-=0.05;
+    }
+    this.style[TRANSFORM] = 'scale(' + cur +')';
+    this.setAttribute('scale', cur);
+}
+//拖动
+let allExmps = document.querySelectorAll('.example>div');
+for(let i=0; i < allExmps.length;i++){
+    let nameEx = allExmps[i];
+    nameEx.addEventListener('mousedown', mousedown);
+    nameEx.addEventListener('touchstart', mousedown, {'passive':false});
+}
+//缩放
 
 </script>
 </body>
