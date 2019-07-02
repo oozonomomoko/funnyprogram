@@ -91,12 +91,12 @@ div{
     width: 56px;
     min-width: 56px;
     background: #fdfdfd;
-    text-align: right;
+    text-align: center;
     border: 0;
     outline: none;
     color: #de0f0f;
     float: right;
-    margin-top: -21px;
+    margin-top: -23px;
 }
 .comment:focus input {
     margin-top: 1px;
@@ -112,9 +112,10 @@ div{
     background: #1d8cc3;
     width: 26px;
     height: 15px;
-    position: absolute;
-    right: 52px;
-    bottom: 5px;
+    position: relative;
+    margin-right: 56px;
+    float: right;
+    margin-top: -20px;
 }
 .camera:after {
     content: " ";
@@ -168,7 +169,7 @@ div{
     </div>
     <div class="example">
         <div type="example" class="comment">
-            <div class="content" spellcheck="false"  onpaste="textpaste()" oninput="addDiv(this)" contenteditable="true"><div>简述文字...简述文字...</div><div>简述文字...简述文字...</div><div>简述文字</div></div>
+            <div class="content" spellcheck="false"  onpaste="textpaste()" oninput="addDiv(this)" contenteditable="true"><div>简述文字...简述文字...</div><div>简述文字</div></div>
             <input spellcheck="false" value="拍摄人" onfocus="focusDefault(this,'拍摄人')" onblur="blurDefault(this,'拍摄人')" oninput="resizeWidth(this,13,4)" type="text"/>
             <div class="camera">
                 <div></div>
@@ -184,6 +185,7 @@ div{
     
 
 <script>
+let name = document.querySelector(".name input");
 let TRANSFORM = 'transform';
 if (typeof document.body.style.webkitTransform !== undefined) {
     TRANSFORM = 'webkitTransform';
@@ -212,6 +214,7 @@ function createImage(t){
     img.addEventListener('mousedown', mousedown);
     img.addEventListener('touchstart', mousedown, {'passive':false});
     img.addEventListener('mousewheel', scaleFun, {passive:false});
+    t.outerHTML = t.outerHTML;
 }
 var main = document.querySelector('.main');
 function textWidth(t, fs, adj){
@@ -223,7 +226,7 @@ function resizeWidth(t, fs, adj){
     let len = t.value.length;
     len=len<4?4:len;
     t.style.width = fs*len + adj + 'px';
-    t.nextElementSibling.style.right = t.style.width;
+    t.nextElementSibling.style.marginRight = t.style.width;
 }
 function focusDefault(t,str){
     if(t.value == str){
@@ -274,6 +277,10 @@ function mousedown(e){
     this.style.position = 'fixed';
     moveXTmp = e.touches?e.touches[0].pageX:e.pageX;
     moveYTmp = e.touches?e.touches[0].pageY:e.pageY;
+    if(e.touches&&e.touches.length === 2) {
+        moveXTmp = (e.touches[0].pageX + e.touches[1].pageX)/2;
+        moveYTmp = (e.touches[0].pageY + e.touches[1].pageY)/2;
+    }
     let that = this;
     if(e.touches&&e.touches.length === 2) {
         startDistance = getDistance(e.touches[0].pageX, e.touches[0].pageY, e.touches[1].pageX, e.touches[1].pageY);
@@ -291,6 +298,14 @@ function mousedown(e){
                 let currDistance = getDistance(e.touches[0].pageX, e.touches[0].pageY, e.touches[1].pageX, e.touches[1].pageY);
                 let tempSale = currDistance/startDistance * scale;
                 that.style[TRANSFORM] = 'scale(' + tempSale +')';
+                that.setAttribute('scale', tempSale);
+                let currX = (e.touches[0].pageX + e.touches[1].pageX)/2;
+                let currY = (e.touches[0].pageY + e.touches[1].pageY)/2;
+                that.style.left = that.offsetLeft + currX-moveXTmp +'px';
+                that.style.top = that.offsetTop + currY-moveYTmp +'px';
+                moveXTmp = currX;
+                moveYTmp = currY;
+                name.value=moveXTmp+':'+moveYTmp;
             }
         } else {
             that.style.left = that.offsetLeft + e.movementX;
@@ -302,7 +317,6 @@ function mousedown(e){
         if (that.getAttribute('type') ==='example'){
             that.style.position = '';
         }
-        that.setAttribute('scale', tempSale?tempSale:1);
         this.removeEventListener('mousemove', mousemove);
         this.removeEventListener('touchmove', mousemove, {'passive':false});
         this.removeEventListener('mouseup', mouseup);
