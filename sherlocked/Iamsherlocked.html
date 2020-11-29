@@ -1,99 +1,124 @@
-<html>
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
 <head>
-<title>左手掐腰</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-<style>
-body {
-    margin: 0;
-    padding: 0;
-    -webkit-user-select:none;
-	-moz-user-select:none;
-	-o-user-select:none;
-	user-select:none;
-    background-color:black;
-}
-.title {
-    color: #a4a3a4;
-    font-size: 10em;
-    text-align: center;
-    letter-spacing: 10px;
-}
-.sher {
-    width: 560px;
-    display: flex;
-    margin: 0 auto;
-}
-.pass {
-    width: 103px;
-    margin: 0 auto;
-    background-color: #a4a3a4;
-    color: #020104;
-    text-align: center;
-    font-size: 10em;
-}
-.pass div {
-    display: inline-block;
-}
-.pass .s {
-}
-.pass .r:after {
-    content: "";
-    display: block;
-    background-color: #302c2e;
-    width: 90%;
-    height: 10px;
-    margin-top: -23px;
-    margin-left: auto;
-    animation: blink 0.7s infinite;
-    -webkit-animation: blink 0.7s infinite;
-    -moz-animation: blink 0.7s infinite;
-    -o-animation: blink 0.7s infinite;
-    -ms-animation: blink 0.7s infinite;
-}
-.pass .h {
-    margin-left: -10px;
-}
-.pass .e {
-}
-.pass .r {margin-left: -9px;}
-@keyframes blink {
-    0%{opacity:1;}
-    60%{opacity:0;}
-    100%{opacity:1;}
-}
-.main{position:fixed;}
-</style>
-<script type="text/javascript">
-    function res(){
-        let main = document.querySelector(".main");
-        main.style.top = (window.innerHeight-main.offsetHeight)/2+'px';
-        main.style.left = (window.innerWidth-main.offsetWidth)/2+'px';
+  <meta charset="utf-8">
+  <title>左手掐腰</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 0;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -o-user-select: none;
+      user-select: none;
+      background-color: black;
+    }
+
+    .title {
+      color: #a4a3a4;
+      font-size: 10em;
+      text-align: center;
+      letter-spacing: 10px;
+    }
+
+    .sher {
+      width: 560px;
+      display: flex;
+      margin: 0 auto;
+    }
+
+    .pass {
+      width: 103px;
+      margin: 0 auto;
+      background-color: #a4a3a4;
+      color: #020104;
+      text-align: center;
+      font-size: 10em;
+    }
+
+    .pass div {
+      display: inline-block;
+    }
+
+    .pass .s {}
+
+    .pass .r:after {
+      content: "";
+      display: block;
+      background-color: #302c2e;
+      width: 90%;
+      height: 10px;
+      margin-top: -23px;
+      margin-left: auto;
+      animation: blink 0.7s infinite;
+      -webkit-animation: blink 0.7s infinite;
+      -moz-animation: blink 0.7s infinite;
+      -o-animation: blink 0.7s infinite;
+      -ms-animation: blink 0.7s infinite;
+    }
+
+    .pass .h {
+      margin-left: -10px;
+    }
+
+    .pass .e {}
+
+    .pass .r {
+      margin-left: -9px;
+    }
+
+    @keyframes blink {
+      0% {
+        opacity: 1;
+      }
+
+      60% {
+        opacity: 0;
+      }
+
+      100% {
+        opacity: 1;
+      }
+    }
+
+    .main {
+      position: fixed;
+    }
+  </style>
+  <script type="text/javascript">
+    function res() {
+      let main = document.querySelector(".main");
+      main.style.top = (window.innerHeight - main.offsetHeight) / 2 + 'px';
+      main.style.left = (window.innerWidth - main.offsetWidth) / 2 + 'px';
     }
     window.onresize = res;
     window.onload = res;
-</script>
+  </script>
 </head>
+
 <body>
-<div class="main">
+  <div class="main">
     <div class="title">I AM</div>
     <div class="sher">
-        <div class="pass">
-            <div class="s">S</div>
-        </div>
-        <div class="pass">
-            <div class="h">H</div>
-        </div>
-        <div class="pass">
-            <div class="e">E</div>
-        </div>
-        <div class="pass">
-            <div class="r">R</div>
-        </div>
+      <div class="pass">
+        <div class="s">S</div>
+      </div>
+      <div class="pass">
+        <div class="h">H</div>
+      </div>
+      <div class="pass">
+        <div class="e">E</div>
+      </div>
+      <div class="pass">
+        <div class="r">R</div>
+      </div>
     </div>
     <div class="title">LOCKED</div>
-</div>
-<video controls autoplay hidden="true">
-  <source src="SHERlocked.mp3" type="audio/mpeg"/>
-</video>
+  </div>
+  <video controls autoplay hidden="true">
+    <source src="SHERlocked.mp3" type="audio/mpeg" />
+  </video>
 </body>
+
 </html>
