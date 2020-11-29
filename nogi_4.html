@@ -1,0 +1,67 @@
+<html>
+<head>
+<style>
+body{
+    padding:0; 
+    margin: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+</style>
+</head>
+<body>
+    <div id="sky"><img src="img/main.jpg" onload="resize(this);"/></div>
+    <div id="ground"><img src="img/ground.png" onload="resize(this);"/></div>
+<script>
+    var movS = 0.05;
+    var movG = 0.1;
+    var sky = document.getElementById('sky');
+    var ground = document.getElementById('ground');
+    var cx,cy,baseXS,baseYS,baseXG,baseYG;
+    function init(){
+        cx = window.innerWidth/2;
+        cy = window.innerHeight/2;
+        
+        sky.style.width = window.innerWidth*(1+movS) + 'px';
+        sky.style.height = window.innerHeight*(1+movS) + 'px';
+
+        baseXS = -cx*movS;
+        baseYS = -cy*movS;
+        sky.style.marginLeft = baseXS + 'px';
+        sky.style.marginTop = baseYS + 'px';
+        
+        ground.style.width = window.innerWidth*(1+movG) + 'px';
+        ground.style.height = window.innerHeight*(1+movG) + 'px';
+        
+        baseXG = -cx*movG;
+        baseYG = -cy*movG;
+        ground.style.marginLeft = baseXG + 'px';
+        ground.style.marginTop = baseYG + 'px';
+    }
+    init();
+    
+    window.onload = function(){
+        document.body.addEventListener('mousemove', function(e){
+            let degx = cx - e.clientX;
+            let degy = cy - e.clientY;
+            sky.style.marginLeft = ~~(degx*movS) + baseXS + 'px';
+            sky.style.marginTop = ~~(degy*movS) + baseYS + 'px';
+            ground.style.marginLeft = ~~(degx*movG) + baseXG + 'px';
+            ground.style.marginTop = ~~(degy*movG) + baseYG + 'px';
+        });
+    };
+    window.onresize = function(){
+        init();
+    };
+    function resize(that){
+        if (that.width > that.height) {
+            that.setAttribute('style', 'width: 100%');
+        } else {
+            that.setAttribute('style', 'height: 100%');
+        }
+    }
+    
+</script>
+</body>
+</html>
