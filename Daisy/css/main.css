@@ -1,0 +1,48 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+@font-face {
+  font-family: 'myfont1';
+  src: url('myfont1.woff');
+}
+
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  font-family: myfont1;
+  background: #000;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -o-user-select: none;
+  user-select: none;
+}
+
+.content {
+}
+
+.content span {
+    position: fixed;
+    font-size: 2em;
+    font-weight: 300;
+    cursor: default;
+    transition: 0.3s;
+    color: #555;
+    display: block;
+    text-align: center;
+}
+
+.content span:hover, .new{
+  letter-spacing: 2px;
+  color: #fff !important;
+  text-shadow:
+    0 0 10px #fff,
+    0 0 20px #fff,
+    0 0 40px #fff,
+    0 0 80px #fff,
+    0 0 80px #fff;
+}
