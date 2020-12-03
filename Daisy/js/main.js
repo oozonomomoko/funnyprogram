@@ -213,7 +213,7 @@ function noshowTitle(e) {
 
 function refresh() {
   $.ajax({
-    'url': 'http://blog.nogizaka46.com/atom.xml',
+    'url': 'https://blog.nogizaka46.com/atom.xml',
     'method': 'get',
     'success': function(data) {
       let entries = data.getElementsByTagName('entry');
