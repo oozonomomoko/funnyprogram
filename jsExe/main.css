@@ -1,0 +1,38 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+textarea {
+    width: 70%;
+    display: block;
+    margin: 0 auto;
+    padding: 7px;
+    resize: none;
+    border-bottom-left-radius: 6px;
+    border-bottom-right-radius: 6px;
+    border-color: #d0d0d0;
+    outline-color: #d4d0d0;
+    background-color: #fbfbfb;
+}
+
+#source, #target {
+    height: 500px;
+}
+
+#script {
+    height: 100px;
+}
+
+.btns {
+    margin-top: 10px;
+    width: 70%;
+    margin: 10px auto;
+}
+button {
+    margin: 0 auto;
+    display: inline-block;
+    height: 50px;
+    width: 100px;
+    cursor: pointer;
+}
